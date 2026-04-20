@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:todoey_flutter/widgets/tasks_list.dart';
 import 'package:todoey_flutter/screens/add_task_screen.dart';
+import 'package:provider/provider.dart';
+import 'package:todoey_flutter/models/task_data.dart';
 
 class TasksScreen extends StatelessWidget {
-  late Widget buildButtomSheet;
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -14,7 +13,14 @@ class TasksScreen extends StatelessWidget {
         backgroundColor: Colors.lightBlueAccent,
         child: Icon(Icons.add),
         onPressed: () {
-          showModalBottomSheet(context: context, builder: (context) => AddTaskScreen());
+          showModalBottomSheet(
+              context: context,
+              builder: (context) => AddTaskScreen((newTaskTitle) {
+                    // setState(() {
+                    //   tasks.add(Task(name: newTaskTitle));
+                    // });
+                    Navigator.pop(context);
+                  }));
         },
       ),
       body: Column(
@@ -47,7 +53,7 @@ class TasksScreen extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  '12 Tasks',
+                  '${Provider.of<TaskData>(context).taskCount} Tasks',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
@@ -64,7 +70,8 @@ class TasksScreen extends StatelessWidget {
                 borderRadius: BorderRadius.only(
                   topLeft: Radius.circular(20.0),
                   topRight: Radius.circular(20.0),
-                ),),
+                ),
+              ),
               child: TasksList(),
             ),
           ),
@@ -73,5 +80,3 @@ class TasksScreen extends StatelessWidget {
     );
   }
 }
-
-
